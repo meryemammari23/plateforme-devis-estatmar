@@ -1,0 +1,117 @@
+
+:root {
+  --bg:        #0e1626;   /* fond bleu nuit */
+  --bg-2:      #0a101d;
+  --surface:   #161f33;   /* cartes / navbar */
+  --surface-2: #1c2742;
+  --border:    #283450;
+  --text:      #e6eaf2;
+  --muted:     #93a0b8;
+  --accent:    #15c39a;   /* vert-émeraude (boutons) */
+  --accent-2:  #0fa583;   /* hover */
+  --danger:    #ef4444;
+  --grad:      linear-gradient(90deg, #6366f1, #a855f7, #ec4899); /* titres */
+  font-family: system-ui, "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: radial-gradient(1200px 600px at 70% -10%, #1a2748 0%, var(--bg) 55%, var(--bg-2) 100%); min-height: 100vh; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-2); }
+
+.container { max-width: 1000px; margin: 0 auto; padding: 28px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+/* Titres : dégradé violet */
+h1, h2 {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+h3 { color: var(--text); }
+
+/* Boutons émeraude */
+.btn {
+  background: var(--accent);
+  color: #052e25;
+  border: none;
+  padding: 11px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background .15s ease, transform .05s ease;
+}
+.btn:hover { background: var(--accent-2); }
+.btn:active { transform: translateY(1px); }
+.btn.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn.secondary:hover { background: #243152; }
+.btn.danger { background: var(--danger); color: #fff; }
+.btn.danger:hover { background: #c12f2f; }
+
+/* Champs de formulaire */
+input, textarea, select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  background: var(--bg-2);
+  color: var(--text);
+}
+input::placeholder, textarea::placeholder { color: var(--muted); }
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(21,195,154,.15);
+}
+label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 5px; color: var(--muted); }
+
+/* Tableaux */
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+th { color: var(--muted); font-weight: 600; }
+
+/* Navbar translucide arrondie */
+.navbar {
+  background: rgba(22,31,51,.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  padding: 16px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar a { color: var(--muted); margin-right: 18px; font-weight: 600; }
+.navbar a:hover { color: var(--text); }
+
+/* Badges de statut (adaptés au sombre) */
+.badge { padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.badge.EN_ATTENTE { background: rgba(245,158,11,.15); color: #fbbf24; }
+.badge.EN_COURS   { background: rgba(99,102,241,.18); color: #a5b4fc; }
+.badge.VALIDE     { background: rgba(21,195,154,.18); color: #34d6ad; }
+.badge.REFUSE     { background: rgba(239,68,68,.16);  color: #f87171; }
+
+.error { color: #f87171; font-size: 13px; margin-bottom: 12px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+.stat { text-align: center; }
+.stat .num {
+  font-size: 30px; font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.stat div:last-child { color: var(--muted); font-size: 13px; }
