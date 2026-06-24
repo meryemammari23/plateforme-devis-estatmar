@@ -1,0 +1,12 @@
+target/
+*.class
+.idea/
+*.iml
+.vscode/
+uploads/devis-pdf/*
+uploads/pieces-jointes/*
+!uploads/devis-pdf/.gitkeep
+!uploads/pieces-jointes/.gitkeep
+.env
+application-local.properties
+src/main/resources/application.properties 
