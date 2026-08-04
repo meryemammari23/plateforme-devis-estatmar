@@ -32,10 +32,13 @@ import java.util.Locale;
 @Service
 public class DemandePdfService {
 
-    private static final DeviceRgb ACCENT = new DeviceRgb(37, 99, 235);
-    private static final DeviceRgb GRIS_CLAIR = new DeviceRgb(243, 244, 246);
+    // Palette harmonisee avec le frontend (navy / teal Estatmar)
+    private static final DeviceRgb NAVY = new DeviceRgb(10, 15, 30);        // #0a0f1e - fond bandeau
+    private static final DeviceRgb ACCENT = new DeviceRgb(13, 148, 136);    // #0d9488 - teal, entetes/labels
+    private static final DeviceRgb TEAL_PALE = new DeviceRgb(94, 234, 212); // #5eead4 - texte clair sur navy
+    private static final DeviceRgb GRIS_CLAIR = new DeviceRgb(238, 246, 245); // #eef6f5 - alternance lignes
     private static final DeviceRgb BLANC = new DeviceRgb(255, 255, 255);
-    private static final DeviceRgb BLEU_PALE = new DeviceRgb(219, 234, 254);
+    private static final DeviceRgb BLEU_PALE = TEAL_PALE;
     private static final DateTimeFormatter DATE_FR =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
@@ -73,11 +76,11 @@ public class DemandePdfService {
 
     private void construireContenu(Document doc, DemandeDevis demande) {
         Table band = new Table(UnitValue.createPercentArray(new float[]{2, 1})).useAllAvailableWidth();
-        Cell gauche = noBorder(new Cell()).setBackgroundColor(ACCENT).setPadding(14);
+        Cell gauche = noBorder(new Cell()).setBackgroundColor(NAVY).setPadding(14);
         gauche.add(new Paragraph("QuoteFlow").setFontColor(ColorConstants.WHITE).setBold().setFontSize(22));
         gauche.add(new Paragraph("Recapitulatif de demande").setFontColor(BLEU_PALE)
                 .setFontSize(12).setMarginTop(2));
-        Cell droite = noBorder(new Cell()).setBackgroundColor(ACCENT).setPadding(14)
+        Cell droite = noBorder(new Cell()).setBackgroundColor(NAVY).setPadding(14)
                 .setTextAlignment(TextAlignment.RIGHT);
         droite.add(new Paragraph("Reference").setFontColor(BLEU_PALE).setFontSize(8));
         droite.add(new Paragraph(valeur(demande.getReference()))
@@ -85,6 +88,10 @@ public class DemandePdfService {
         band.addCell(gauche);
         band.addCell(droite);
         doc.add(band);
+
+        Table accentBand = new Table(UnitValue.createPercentArray(new float[]{1})).useAllAvailableWidth();
+        accentBand.addCell(noBorder(new Cell()).setBackgroundColor(ACCENT).setHeight(4).setPadding(0));
+        doc.add(accentBand);
 
         Table meta = new Table(UnitValue.createPercentArray(new float[]{1, 1}))
                 .useAllAvailableWidth().setMarginTop(16);
@@ -157,10 +164,10 @@ public class DemandePdfService {
             couleur = new DeviceRgb(107, 114, 128);
         } else {
             switch (statut) {
-                case EN_ATTENTE: couleur = new DeviceRgb(245, 158, 11); break;
-                case EN_COURS:   couleur = new DeviceRgb(37, 99, 235);  break;
-                case VALIDE:     couleur = new DeviceRgb(22, 163, 74);  break;
-                case REFUSE:     couleur = new DeviceRgb(220, 38, 38);  break;
+                case EN_ATTENTE: couleur = new DeviceRgb(163, 98, 10);  break; // #a3620a
+                case EN_COURS:   couleur = new DeviceRgb(3, 105, 161);  break; // #0369a1
+                case VALIDE:     couleur = new DeviceRgb(21, 128, 61);  break; // #15803d
+                case REFUSE:     couleur = new DeviceRgb(185, 28, 28);  break; // #b91c1c
                 default:         couleur = new DeviceRgb(107, 114, 128);
             }
         }

@@ -38,11 +38,15 @@ public class PdfService {
     private static final String SOCIETE_LIGNE2 = "Oujda, Maroc";
     private static final String SOCIETE_CONTACT = "contact@quoteflow.ma";
     private static final BigDecimal TAUX_TVA = new BigDecimal("0.20");
-    private static final DeviceRgb ACCENT = new DeviceRgb(37, 99, 235);
 
-    private static final DeviceRgb GRIS_CLAIR = new DeviceRgb(243, 244, 246);
+    // Palette harmonisee avec le frontend (navy / teal Estatmar)
+    private static final DeviceRgb NAVY = new DeviceRgb(10, 15, 30);      // #0a0f1e - fond bandeau
+    private static final DeviceRgb ACCENT = new DeviceRgb(13, 148, 136);  // #0d9488 - teal, entetes/totaux
+    private static final DeviceRgb TEAL_PALE = new DeviceRgb(94, 234, 212); // #5eead4 - texte clair sur navy
+
+    private static final DeviceRgb GRIS_CLAIR = new DeviceRgb(238, 246, 245); // #eef6f5 - alternance lignes
     private static final DeviceRgb BLANC = new DeviceRgb(255, 255, 255);
-    private static final DeviceRgb BLEU_PALE = new DeviceRgb(219, 234, 254);
+    private static final DeviceRgb BLEU_PALE = TEAL_PALE;
     private static final DateTimeFormatter DATE_FR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Value("${app.pdf.devis-dir:./generated/devis}")
@@ -84,10 +88,10 @@ public class PdfService {
         String date = devis.getDateCreation() != null ? devis.getDateCreation().format(DATE_FR) : "-";
 
         Table band = new Table(UnitValue.createPercentArray(new float[]{2, 1})).useAllAvailableWidth();
-        Cell gauche = noBorder(new Cell()).setBackgroundColor(ACCENT).setPadding(14);
+        Cell gauche = noBorder(new Cell()).setBackgroundColor(NAVY).setPadding(14);
         gauche.add(new Paragraph(SOCIETE_NOM).setFontColor(ColorConstants.WHITE).setBold().setFontSize(22));
         gauche.add(new Paragraph("DEVIS").setFontColor(BLEU_PALE).setFontSize(12).setMarginTop(2));
-        Cell droite = noBorder(new Cell()).setBackgroundColor(ACCENT).setPadding(14)
+        Cell droite = noBorder(new Cell()).setBackgroundColor(NAVY).setPadding(14)
                 .setTextAlignment(TextAlignment.RIGHT);
         droite.add(new Paragraph("Reference").setFontColor(BLEU_PALE).setFontSize(8));
         droite.add(new Paragraph(ref).setFontColor(ColorConstants.WHITE).setBold().setFontSize(12));
@@ -95,6 +99,10 @@ public class PdfService {
         band.addCell(gauche);
         band.addCell(droite);
         doc.add(band);
+
+        Table accentBand = new Table(UnitValue.createPercentArray(new float[]{1})).useAllAvailableWidth();
+        accentBand.addCell(noBorder(new Cell()).setBackgroundColor(ACCENT).setHeight(4).setPadding(0));
+        doc.add(accentBand);
 
         Table infos = new Table(UnitValue.createPercentArray(new float[]{1, 1}))
                 .useAllAvailableWidth().setMarginTop(18);
